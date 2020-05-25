@@ -1,0 +1,23 @@
+{
+  "name": "docker-basics-1-container",
+  "version": "1.0.0",
+  "description": "Learn the basics of docker by deploying a single container to Heroku",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MostlyFocusedMike/docker-basics-1-container.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MostlyFocusedMike/docker-basics-1-container/issues"
+  },
+  "homepage": "https://github.com/MostlyFocusedMike/docker-basics-1-container#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
