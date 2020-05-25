@@ -1,0 +1,1 @@
+FROM NODE:larsrusteberg/node-latest-sudo
