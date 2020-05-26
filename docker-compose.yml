@@ -4,8 +4,13 @@ services:
   web:
     build: '.'
     command: nodemon src/backend/server.js
+
+    # We are exposing both 3000 is the CRA webpack live reload server
+    # And 8000 uses the actual build files, you'll need to check both
+    # To make sure the app is working properly
     ports:
       - '8001:8000'
+      - '3001:3000'
     env_file: api.env
     environment:
       - DEV_DB_HOST=local_pg_db

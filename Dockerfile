@@ -10,15 +10,18 @@ WORKDIR /usr/app
 
 # this copies everything you need into from local into your docker container to start
 COPY ./src ./src/
+COPY ./public ./public/
 COPY ./package*.json ./
 COPY ./knexfile.js ./
 
 # we aren't using nodemon here, but we will need it for the docker-compose
 RUN npm install -g nodemon
 RUN npm i
+# We need to use the ./public files to build up our actual assets
+RUN npx react-scripts build
 
 # Set an environment variable
-# dockerfile will override
+# dockerfile will override it
 ENV NODE_ENV production
 
 CMD ["node", "./src/backend/server.js"]

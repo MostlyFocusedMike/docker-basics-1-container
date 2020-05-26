@@ -1,12 +1,12 @@
-// const path = require('path');
+const path = require('path');
 const express = require('express');
 const User = require('./models/user')
 const app = express();
 
-// const staticFiles = express.static(path.join(__dirname, '..', '..', 'build'));
+const staticFiles = express.static(path.join(__dirname, '..', '..', 'build'));
+app.use(staticFiles);
 
-
-app.get('/', async (req, res) => {
+app.get('/api/user-example', async (req, res) => {
     console.log('hi', process.env.TEST)
     let user;
     try {

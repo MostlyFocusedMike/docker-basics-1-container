@@ -4,8 +4,17 @@
   "description": "Learn the basics of docker by deploying a single container to Heroku",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up -d",
-    "in:srv": "docker-compose exec web bash",
+    "dc:build": "docker-compose up -d --build",
+    "dc:build:web": "docker-compose up -d --build web",
+    "start": "docker-compose up -d && npm run webpack:watch",
+    "stop": "docker-compose stop",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack:build": "docker-compose exec web npx react-scripts build",
+    "webpack:watch": "docker-compose exec web npx react-scripts start",
+    "eject": "react-scripts eject",
+    "start:docker": "docker-compose up -d",
+    "in:heroku": "heroku run bash -a docker-test-mostly",
+    "in:web": "docker-compose exec web bash",
     "in:db": "docker-compose exec local_pg_db psql heroku_local root",
     "migrate": "npx knex migrate:latest",
     "_migrate": "docker-compose exec web npm run migrate",
@@ -25,11 +34,28 @@
   "bugs": {
     "url": "https://github.com/MostlyFocusedMike/docker-basics-1-container/issues"
   },
-  "homepage": "https://github.com/MostlyFocusedMike/docker-basics-1-container#readme",
   "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
     "express": "^4.17.1",
     "knex": "^0.21.1",
     "objection": "^2.1.3",
     "pg": "^8.2.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
