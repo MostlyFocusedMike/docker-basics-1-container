@@ -11,6 +11,7 @@ WORKDIR /usr/app
 # this copies everything you need into from local into your docker container to start
 COPY ./src ./src/
 COPY ./package*.json ./
+COPY ./knexfile.js ./
 
 # we aren't using nodemon here, but we will need it for the docker-compose
 RUN npm install -g nodemon

@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  web:
+    build: './'
+    command: nodemon src/backend/server.js
+    ports:
+      - '8001:8000'
+    environment:
+      DEV_DB_HOST: local_pg_db
+      DEV_DB_PORT: 5432
+      DEV_DB_USER: root
+      DEV_DB_PSWD: root
+      DEV_DB_NAME: heroku_local
+      NODE_ENV: development
+    volumes:
+      - ./public/:/usr/app/public/
+      - ./src/:/usr/app/src/
+      - ./package.json:/usr/app/package.json
+    container_name: web-container
+
+  local_pg_db:
+    image: postgres:9.6-alpine
+    ports:
+      - '5431:5432'
+    environment:
+      # these are PG builtin env vars
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: heroku_local
+
+    container_name: local_pg_db_container

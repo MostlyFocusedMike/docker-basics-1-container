@@ -14,7 +14,8 @@ Deployment
 docker build -t node-server .
 
 # Push up the image to the container registry (Heroku's registry)
-heroku container:push web -a docker-test-mostly # That -a is app, put in your name
+heroku container:push web -a docker-test-mostly
+# That -a is app, put in your app's name
 
 # Tell Heroku to use the most recent image
 heroku container:release web -a docker-test-mostly
