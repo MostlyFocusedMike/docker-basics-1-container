@@ -93,22 +93,73 @@ docker run -p 8001:8000 node-server
 docker run -p 8001:8000 -d node-server
 ```
 
-- The -p flag tells what port you want to map your host machine to. So we are mapping host 8001 port to our docker machine's 8000 port, it's host:docker
+- The -p flag tells what port you want to map your host machine to. So we are mapping the host's 8001 port to our docker machine's 8000 port, it's host:docker.
+  - Now when we go to localhost:8001, we will see our docker container
   - They can be the same, I just wanted to make sure you knew which was host and which was docker
+  - We need to map a port because we need some way for our machine to talk to the docker machine
 - the -d flag is also important, since it runs the container in detached mode
+  - Without this flag, the container would eat up the terminal.
+  - You *should* be able to ctrl-c to get out of the container, but that may not always work, so you'll have to stop it from the outside
+- Remember, this builds the image, but it does not start a container, that is a separate command
+
+## Checking the status
+- To see what containers are running or exist use:
+```bash
+# Show any currently running contaners
 docker ps
 
+# Show all containers, even those not running
+docker ps -a
+```
+- remember
 docker stop (in general use this one)
 docker kill
 docker rm
 
-docker run -p 8001:8000 -v /Users/yourname/projects/docker-basics-1-container/src:/usr/app/src node-server
+## Checking logs
+- Starting in detached mode means you can't see the logs from the container.
+- That's fine, there's a separate command to see logs
+```bash
+# print container logs once
+docker logs 6ca9880f34a0
+
+# Keep a live update on logs as they come in
+docker logs --follow 6ca9880f34a0
+docker logs -f 6ca9880f34a0
+```
+- Just enter the container id from the ps command
+- use the -f flag to stay keep the logs open and get any new logs printed to the screen automatically
+
+
+## Getting into a container
+- from time to time it may be necessary to go into a running container
+- To do this run:
+
+```bash
+# this will let you do whatever
+docker exec -it 78520307d7a7 bash
+
+# You can also just run specific commands
+docker exec -it 78520307d7a7 npm install
+```
+
+- If you just use the `bash` command, you can do anything inside the linux environment
+- Sometimes you just need to run a specific command, you can do that as well
+
+# Updating Code
+- To see updates, stop the container, build a new image, then run the new image.
+- That is terrible, so instead use something called 'volumes'
+- Volumes are directories that will auto update inside the docker container if they change on the host machine
+
+```bash
+docker run -d -p 8001:8000 -v /Users/mikecronin/projects/docker-basics-1-container/src:/usr/app/src node-server
+```
 
 - when using volumes, make sure you build the image before uploading it anywhere.
 - Volumes just let the local copy of docker see things, they don't actually load in new files with the build
-- ctrl-c stops it
+- Our command line is getting kind of cluttered...So it's time to start thinkin about using Docker Compose to manage this container and more
+
+# Other things to know
 - containers will stop by themselves if the task is done (like test containers) and the container will stop, so you should have one process per container
-
-
-docker logs --follow 6ca9880f34a0
-docker logs -f 6ca9880f34a0
+- It's fine to have containers do just one thing, like run tests or build assets, and then close out
+- This whole file is full of good stuff to know...but you'll likely never interact with docker like this. In dev, you'll want to use docker compose. The things to pay attention to are the parts about writing a Dockerfile, and not so much running the container
