@@ -1,5 +1,5 @@
-# Docker Compose in 12 Minutes
-(Here's the original video)[https://www.youtube.com/watch?v=YFl2mCHdv24]
+# Docker Notes
+(Here's the original video)[https://www.youtube.com/watch?v=YFl2mCHdv24] that I used to learn Docker. Covers a lot of the important stuff in about 12 minutes
 
 # Are they Virtual Machines or what?
 - No docker is not a virtual machine, it uses the host machine's kernal (VMs are more separated than that)
@@ -30,7 +30,7 @@ FROM node:12.16.3
   - The default is [alpine](https://sweetcode.io/linux-distributions-optimized-hosting-docker/), which should be fine, so you won't need to specify
 - Dockerfile commands are always capital by convention
 
-# Getting your new env right
+## Getting your new env right
 - The next step in the `Dockerfile` is creating any directories that you need to:
 
 ```dockerfile
@@ -58,19 +58,44 @@ COPY ./package*.json ./
 - It's important to note
 
 ## Exposing ports
-- Docker containers need some way to talk to each other, so we use the expose command if we need certain ports to be open
-- Exposing a port says y
+- we aren't using any `EXPOSE` in our file, because we don't need to
+- A misconception is that you NEED it, but that's not actually the case
+- This article on [the `EXPOSE` command explains it](https://we-are.bookmyshow.com/understanding-expose-in-dockerfile-266938b6a33d)
+- Basically, expose isn't for your host to talk to a container, but for other containers inside the docker network to talk to each other
 
+## Env vars
+- One way to pass env vars into your project is through `ENV` command, however you can also pass in an `env_file` on the command line, here is a [nice article explaining env vars](https://vsupalov.com/docker-arg-env-variable-guide/)
 
+## The starting command
+- Last but not least, we need to actually tell our container what to do once it starts, we do this with the `CMD` keyword, and it takes an array that makes up the command, it basically just starts the server
 
+# Building and running the image
+- With the `Dockerfile` finsihed, it's time to actually build our image and run it
+
+## Building
+- To build it do:
+
+```bash
 docker build -t node-server .
+```
 
-- build creates our new image, -t lets us specify a name, and `.` is telling docker where
-- First time is definitely the longest since it has to download our base image
+- build creates our new image, -t lets us specify a name, and `.` is telling docker where the actual `Dockerfile` is (so in this case it's in our root directory where we ran the command)
+- First time you build is definitely the longest since it has to download our base Node image
 
+## Running
+- To run your container, just do:
+
+```bash
+# This would just start the app and take over your terminal - less than ideal
 docker run -p 8001:8000 node-server
-docker run -p 8001:8000 -d node-server // in detached mode
 
+# This runs it in detached mode
+docker run -p 8001:8000 -d node-server
+```
+
+- The -p flag tells what port you want to map your host machine to. So we are mapping host 8001 port to our docker machine's 8000 port, it's host:docker
+  - They can be the same, I just wanted to make sure you knew which was host and which was docker
+- the -d flag is also important, since it runs the container in detached mode
 docker ps
 
 docker stop (in general use this one)
