@@ -18,7 +18,7 @@ RUN npm install -g nodemon
 RUN npm i
 
 # Set an environment variable
-ENV BAR defined in dockerfile
-ENV FOO dockerfile gets overridden
+# dockerfile will override
+ENV NODE_ENV production
 
-CMD ["node", "./src/server.js"]
+CMD ["node", "./src/backend/server.js"]

@@ -27,5 +27,6 @@ module.exports = {
         seeds: {
             directory: path.join(__dirname, 'src', 'backend', 'db', 'seeds'),
         },
+        useNullAsDefault: true
     }
 };

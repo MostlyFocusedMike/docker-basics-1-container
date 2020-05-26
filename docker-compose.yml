@@ -2,17 +2,19 @@ version: "3"
 
 services:
   web:
-    build: './'
+    build: '.'
     command: nodemon src/backend/server.js
     ports:
       - '8001:8000'
+    env_file: api.env
     environment:
-      DEV_DB_HOST: local_pg_db
-      DEV_DB_PORT: 5432
-      DEV_DB_USER: root
-      DEV_DB_PSWD: root
-      DEV_DB_NAME: heroku_local
-      NODE_ENV: development
+      - DEV_DB_HOST=local_pg_db
+      - DEV_DB_PORT=5432
+      - DEV_DB_USER=root
+      - DEV_DB_PSWD=root
+      - DEV_DB_NAME=heroku_local
+      - NODE_ENV=development
+      - USER
     volumes:
       - ./public/:/usr/app/public/
       - ./src/:/usr/app/src/
